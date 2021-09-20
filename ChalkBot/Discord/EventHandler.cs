@@ -22,10 +22,9 @@ namespace ChalkBot.Discord
 
     private async Task<Task> MessageCreated(DiscordClient sender, MessageCreateEventArgs args)
     {
-      if (new List<ulong> { Constants.Channels.AdBoardChannelId, Constants.Channels.TestingChannel }.Any(x => x == args.Channel.Id))
+      if (new List<ulong> { Constants.Channels.AdBoardChannelId }.Contains(args.Channel.Id))
       {
-        if ((args.Author.IsBot || this._client.CurrentApplication.Owners.Any(x => x.Id == args.Author.Id)) &&
-            !args.Channel.Id.Equals(Constants.Channels.TestingChannel))
+        if (args.Author.IsBot || this._client.CurrentApplication.Owners.Any(x => x.Id == args.Author.Id))
           return Task.CompletedTask;
         await args.Message.DeleteAsync();
       }
