@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using ChalkBot.Discord.Attributes;
 using ChalkBot.Extensions;
 using DSharpPlus;
 using DSharpPlus.Entities;
@@ -12,6 +13,7 @@ namespace ChalkBot.Discord.SlashCommands.Board
 {
   [UsedImplicitly]
   [SlashCommandGroup("board", "Доска объявлений")]
+  [RequiredChannels(Constants.Channels.AdBoardChannelId, Constants.Channels.TestingChannel)]
   public class BoardCommand : ApplicationCommandModule
   {
     private readonly DiscordClient _client;
@@ -41,18 +43,6 @@ namespace ChalkBot.Discord.SlashCommands.Board
       [Option("description", "Описание")] string description,
       [Option("price", "Цена")] string price)
     {
-      if (!new List<ulong> { Constants.Channels.AdBoardChannelId, Constants.Channels.TestingChannel }.Contains(
-        ctx.Channel.Id))
-      {
-        await ctx.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource,
-          new DiscordInteractionResponseBuilder()
-            .WithContent(
-              $"Тут не работает {DiscordEmoji.FromGuildEmote(this._client, Constants.Guilds.MelharucosDiscord)}")
-            .AsEphemeral(true)
-        );
-        return;
-      }
-
       var embed = new DiscordEmbedBuilder()
         .WithColor(new DiscordColor(0xFF9D00))
         .WithAuthor($"{ctx.Member.Username}#{ctx.Member.Discriminator}", null, ctx.Member.AvatarUrl)

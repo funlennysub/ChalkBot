@@ -28,7 +28,7 @@ namespace ChalkBot
         .Where(e => e.IsClass && !e.IsAbstract && e.IsSubclassOf(typeof(ApplicationCommandModule))))
       {
         Console.WriteLine("Registered " + type.FullName);
-        slashCommands.RegisterCommands(type, Constants.Guilds.MelharucosDiscord);
+        slashCommands.RegisterCommands(type, Constants.Guilds.MelharucosDiscordId);
       }
     }
   }

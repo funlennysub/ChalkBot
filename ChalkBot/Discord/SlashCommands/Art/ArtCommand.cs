@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ChalkBot.Discord.Attributes;
 using ChalkBot.Extensions;
 using DSharpPlus;
 using DSharpPlus.Entities;
@@ -11,6 +12,7 @@ using JetBrains.Annotations;
 namespace ChalkBot.Discord.SlashCommands.Art
 {
   [UsedImplicitly]
+  [RequiredChannels(Constants.Channels.TestingChannel, Constants.Channels.ArtLobbyChannelId)]
   public class ArtCommand : ApplicationCommandModule
   {
     private readonly DiscordClient _client;
@@ -30,18 +32,6 @@ namespace ChalkBot.Discord.SlashCommands.Art
       [Option("names", "Ники строителей арта, через |")]
       string builders)
     {
-      if (!new List<ulong> { Constants.Channels.TestingChannel, Constants.Channels.ArtLobbyChannelId }.Contains(
-        ctx.Channel.Id))
-      {
-        await ctx.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource,
-          new DiscordInteractionResponseBuilder()
-            .WithContent(
-              $"Тут не работает {DiscordEmoji.FromGuildEmote(this._client, Constants.Guilds.MelharucosDiscord)}")
-            .AsEphemeral(true)
-        );
-        return;
-      }
-
       var names = builders.Split('|');
 
       var embed = new DiscordEmbedBuilder()
