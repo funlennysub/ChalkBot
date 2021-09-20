@@ -14,11 +14,11 @@ namespace ChalkBot.Discord.SlashCommands.Board
   [SlashCommandGroup("board", "Доска объявлений")]
   public class BoardCommand : ApplicationCommandModule
   {
-    private readonly DiscordClient _discordClient;
+    private readonly DiscordClient _client;
 
-    public BoardCommand(DiscordClient discordClient)
+    public BoardCommand(DiscordClient client)
     {
-      this._discordClient = discordClient;
+      this._client = client;
     }
 
     public enum AdType
@@ -33,34 +33,21 @@ namespace ChalkBot.Discord.SlashCommands.Board
       Buy
     }
 
-    public enum Server
-    {
-      [Description("Maria")] [ChoiceName("maria")]
-      Maria,
-
-      [Description("Shiganshina")] [ChoiceName("shiganshina")]
-      Shiganshina,
-
-      [Description("Rose")] [ChoiceName("rose")]
-      Rose,
-
-      [Description("Sina")] [ChoiceName("sina")]
-      Sina,
-    }
-
     [UsedImplicitly]
     [SlashCommand("create", "Создать объявление")]
     public async Task CreateBoard(InteractionContext ctx,
       [Option("type", "Тип объявления")] AdType adType,
-      [Option("server", "Сервер")] Server server,
+      [Option("server", "Сервер")] Constants.Server server,
       [Option("description", "Описание")] string description,
       [Option("price", "Цена")] string price)
     {
-      if (!new List<ulong> { 878504975469273130, 884126015956332564 }.Contains(ctx.Channel.Id))
+      if (!new List<ulong> { Constants.Channels.AdBoardChannelId, Constants.Channels.TestingChannel }.Contains(
+        ctx.Channel.Id))
       {
         await ctx.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource,
           new DiscordInteractionResponseBuilder()
-            .WithContent($"Тут не работает {DiscordEmoji.FromGuildEmote(this._discordClient, 875034683371577364)}")
+            .WithContent(
+              $"Тут не работает {DiscordEmoji.FromGuildEmote(this._client, Constants.Guilds.MelharucosDiscord)}")
             .AsEphemeral(true)
         );
         return;

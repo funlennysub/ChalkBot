@@ -9,6 +9,7 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 config.json
+db-data
 
 # User-specific files
 *.rsuser

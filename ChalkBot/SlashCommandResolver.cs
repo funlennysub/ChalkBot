@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using ChalkBot.Discord;
 using DSharpPlus;
 using DSharpPlus.SlashCommands;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,7 +28,7 @@ namespace ChalkBot
         .Where(e => e.IsClass && !e.IsAbstract && e.IsSubclassOf(typeof(ApplicationCommandModule))))
       {
         Console.WriteLine("Registered " + type.FullName);
-        slashCommands.RegisterCommands(type, 874214350469087264);
+        slashCommands.RegisterCommands(type, Constants.Guilds.MelharucosDiscord);
       }
     }
   }
